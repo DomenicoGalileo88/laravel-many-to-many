@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+#sidebarMenu{
+    box-shadow: 0 0 10px grey;
+}
+
+    a{
+        &:hover{
+            color:black !important;
+        }
+    }
+
