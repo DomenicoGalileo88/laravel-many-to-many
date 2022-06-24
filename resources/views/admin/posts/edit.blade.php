@@ -40,7 +40,7 @@
             <option value="{{$tag->id}}" {{ in_array($tag->id, old('tags', [])) ? 'selected' : ''}}>{{$tag->name}}</option>
             @else
             <option value="{{$tag->id}}" {{ $post->tags->contains($tag->id) ? 'selected' : ''}}>{{$tag->name}}</option>
-            endif
+            @endif
             @empty
             <option>No tag! Add firs tags!!</option>
             @endforelse
