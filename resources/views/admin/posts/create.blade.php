@@ -24,7 +24,18 @@
             @foreach($categories as $category)
             <option value="{{$category->id}}" {{old('category_id') == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
             @endforeach
+        </select>
+    </div>
 
+    <div class="mb-3">
+        <label for="tags" class="form-label">Tags</label>
+        <select multiple class="form-select" name="tags[]" id="tags" aria-label="Tags">
+            <option value="" disabled>Select tags</option>
+            @forelse($tags as $tag)
+            <option value="{{$tag->id}}">{{$tag->name}}</option>
+            @empty
+            <option>No tags!! Add first tag.</option>
+            @endforelse
         </select>
     </div>
 

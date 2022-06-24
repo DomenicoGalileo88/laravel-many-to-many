@@ -13,6 +13,17 @@
                 <strong>Category:</strong> {{$post->category ? $post->category->name : 'N/D'}}
             </div>
 
+            <div class="tags">
+                <strong>Tags:</strong>
+                @if(count($post->tags) > 0)
+                @foreach($post->tags as $tag)
+                <small>#{{$tag->name}} </small>
+                @endforeach
+                @else
+                <small>N/D</small>
+                @endif
+            </div>
+
             <p>{{$post->content}}</p>
         </div>
     </div>

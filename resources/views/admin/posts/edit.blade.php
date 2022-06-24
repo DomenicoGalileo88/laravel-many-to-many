@@ -28,10 +28,26 @@
             @foreach($categories as $category)
             <option value="{{$category->id}}" {{old('category_id', $post->category_id) == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
             @endforeach
-
         </select>
     </div>
-    <div class="form-group">
+
+    <div class="mb-3">
+        <label for="tags" class="form-label">Tags</label>
+        <select multiple class="form-select" name="tags[]" id="tags" aria-label="Tags">
+            <option value="" disabled>Select tags</option>
+            @forelse($tags as $tag)
+            @if($errors->any())
+            <option value="{{$tag->id}}" {{ in_array($tag->id, old('tags', [])) ? 'selected' : ''}}>{{$tag->name}}</option>
+            @else
+            <option value="{{$tag->id}}" {{ $post->tags->contains($tag->id) ? 'selected' : ''}}>{{$tag->name}}</option>
+            endif
+            @empty
+            <option>No tag! Add firs tags!!</option>
+            @endforelse
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label for="content">Content</label>
         <textarea class="form-control" name="content" id="content" rows="4">{{old('content', $post->content)}}</textarea>
     </div>

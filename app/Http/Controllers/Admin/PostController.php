@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -29,7 +30,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -48,9 +50,10 @@ class PostController extends Controller
         $val_data['slug'] = $slug;
 
         // create the resource
-        Post::create($val_data);
+        $new_post = Post::create($val_data);
+        $new_post->tags()->attach($request->tags);
         // redirect
-        return redirect()->route('admin.posts.index')->with('message', 'Post creato con successo');
+        return redirect()->route('admin.posts.index')->with('message', 'Post Created successfully!!');
     }
 
     /**
@@ -73,8 +76,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
         
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -97,6 +101,9 @@ class PostController extends Controller
 
         // create the resource
         $post->update($val_data);
+
+        //sync tags
+        $post->tags()->sync($request->tags);
 
 
         // redirect
