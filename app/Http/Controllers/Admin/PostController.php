@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -48,6 +49,9 @@ class PostController extends Controller
         // generare lo slug
         $slug = Post::slug($request->title); // lo generiamo attraverso una funzione definita nel metodo Post 
         $val_data['slug'] = $slug;
+
+        // assign the post to the authenticated user
+        $val_data['user_id'] = Auth::id();
 
         // create the resource
         $new_post = Post::create($val_data);

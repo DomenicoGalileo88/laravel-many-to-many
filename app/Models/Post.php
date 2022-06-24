@@ -5,10 +5,11 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 
 class Post extends Model
 {
-    protected $fillable = ['title', 'content', 'slug', 'cover_image', 'category_id'];
+    protected $fillable = ['title', 'content', 'slug', 'cover_image', 'category_id', 'user_id'];
 
     public static function slug($title)
     {
@@ -29,5 +30,10 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
