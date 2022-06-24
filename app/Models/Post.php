@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Support\Str;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,5 +19,15 @@ class Post extends Model
     {
         //creiamo la relazione one to many
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * The post that belong to the Post
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }
