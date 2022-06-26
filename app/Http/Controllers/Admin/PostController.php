@@ -55,6 +55,7 @@ class PostController extends Controller
 
         // create the resource
         $new_post = Post::create($val_data);
+        // attach all tags to the post
         $new_post->tags()->attach($request->tags);
         // redirect
         return redirect()->route('admin.posts.index')->with('message', 'Post Created successfully!!');

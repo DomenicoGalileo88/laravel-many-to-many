@@ -38,6 +38,9 @@
             @endforelse
         </select>
     </div>
+    @error('tags')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
     <div class="form-group">
         <label for="content">Content</label>
