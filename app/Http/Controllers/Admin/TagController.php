@@ -73,7 +73,7 @@ class TagController extends Controller
         $tag->update($val_data);
 
         //redirect
-        return redirect()->back()->with('message', 'Tag $slug updated successfully!!');
+        return redirect()->back()->with('message', 'Tag updated successfully!!');
     }
 
     /**

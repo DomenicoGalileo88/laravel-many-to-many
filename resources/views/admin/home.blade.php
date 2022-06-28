@@ -18,7 +18,6 @@
                         <a href="{{route('admin.posts.create')}}" class="btn btn-primary text-white">Create Post</a>
                     </div>
 
-
                 </div>
             </div>
         </div>

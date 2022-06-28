@@ -21,7 +21,7 @@
                 <td scope="row">{{$post->id}}</td>
                 <td>{{$post->title}}</td>
                 <td>{{$post->slug}}</td>
-                <td><img width="150" height="75" src="{{$post->cover_image}}" alt="Cover image {{$post->title}}"></td>
+                <td><img width="150" height="75" src="{{asset('storage/' . $post->cover_image)}}" alt="Cover image {{$post->title}}"></td>
                 <td>
                     <a class="btn btn-primary text-white" href="{{route('admin.posts.show', $post->slug )}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

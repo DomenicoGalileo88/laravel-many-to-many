@@ -8,6 +8,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -43,6 +44,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+
+        //ddd($request->all());
+
         // Validazione dati
         $val_data = $request->validated();
 
@@ -52,6 +56,20 @@ class PostController extends Controller
 
         // assign the post to the authenticated user
         $val_data['user_id'] = Auth::id();
+
+        // verificare se la richiesta contiene un file
+        if ($request->hasFile('cover_image')) {
+            // validare il file
+            $request->validate([
+                'cover_image' => 'nullable|image|max:300'
+            ]);
+            // salvo il file nel filesystem
+            // recupero il percorso
+            //ddd($request->all());
+            $path = Storage::put('post_images', $request->cover_image);
+            // passo il percorso all'array di dati validati per salvare la risorsa
+            $val_data['cover_image'] = $path;
+        }
 
         // create the resource
         $new_post = Post::create($val_data);
@@ -104,7 +122,23 @@ class PostController extends Controller
         $slug = Post::slug($request->title); // lo generiamo attraverso una funzione definita nel metodo Post
         $val_data['slug'] = $slug;
 
-        // create the resource
+        // verificare se la richiesta contiene un file
+        if ($request->hasFile('cover_image')) {
+            // validare il file
+            $request->validate([
+                'cover_image' => 'nullable|image|max:300'
+            ]);
+            // elimino l'immagine vecchia
+            Storage::delete($post->cover_image);
+            // salvo il file nel filesystem
+            // recupero il percorso
+            //ddd($request->all());
+            $path = Storage::put('post_images', $request->cover_image);
+            // passo il percorso all'array di dati validati per salvare la risorsa
+            $val_data['cover_image'] = $path;
+        }
+
+        // update the resource
         $post->update($val_data);
 
         //sync tags
@@ -123,6 +157,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // elimino l'immagine vecchia
+        Storage::delete($post->cover_image);
+        //elimino la risorsa
         $post->delete();
         return redirect()->route('admin.posts.index')->with('message', 'Post eliminato con successo');
     }
