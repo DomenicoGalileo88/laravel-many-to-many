@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Mail\NewPosCreated;
+use App\Mail\PostUpdate;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
@@ -152,6 +153,9 @@ class PostController extends Controller
 
         //sync tags
         $post->tags()->sync($request->tags);
+
+        //invia la mail
+        Mail::to('admin@boolpress.com')->send(new PostUpdate($post));
 
 
         // redirect

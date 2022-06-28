@@ -1,7 +1,9 @@
 <?php
 
+use App\Mail\PostUpdate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,7 +37,6 @@ Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->
         'tags' => 'tag:slug'
     ])->except('show', 'edit', 'create');
 });
-
 
 
 
