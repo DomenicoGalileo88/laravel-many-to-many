@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
+use App\Mail\NewPosCreated;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -75,6 +77,13 @@ class PostController extends Controller
         $new_post = Post::create($val_data);
         // attach all tags to the post
         $new_post->tags()->attach($request->tags);
+
+        // invia una mail usando l'istanza dell'user nella request
+        Mail::to($request->user())->send(new NewPosCreated($new_post));
+
+        /* se la vuoi mandare inserendo un indirizzo mail
+        Mail::to('example@example.com')->send(new NewPosCreated($new_post)); */
+
         // redirect
         return redirect()->route('admin.posts.index')->with('message', 'Post Created successfully!!');
     }
