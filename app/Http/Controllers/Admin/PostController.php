@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderByDesc('id')->get();
+        $posts = Post::where('user_id', Auth::id())->orderByDesc('id')->get();
         //dd($posts);
         return view('admin.posts.index', compact('posts'));
     }
